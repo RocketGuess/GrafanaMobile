@@ -1,6 +1,7 @@
 package com.gogisoft.grafanamobile.fragments;
 
 import com.gogisoft.grafanamobile.R;
+import com.gogisoft.grafanamobile.api_client.models.DashboardsListModel;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,10 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-/**
- * Created by neokree on 22/01/15.
- */
-public class DashboardsList extends Fragment {
+
+public class Dashboard extends Fragment {
+    private DashboardsListModel dashboardMeta;
+
+    public Dashboard(DashboardsListModel dashboardMeta) {
+        this.dashboardMeta = dashboardMeta;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)  {
@@ -21,4 +25,6 @@ public class DashboardsList extends Fragment {
 
         return view;
     }
+
+
 }
