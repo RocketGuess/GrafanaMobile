@@ -49,9 +49,13 @@ public class ActivityMain extends MaterialNavigationDrawer {
 
     private void updateDashboardsList(List<DashboardsListModel> list) {
         for (DashboardsListModel dashboard : list) {
+            Dashboard dashboardFragment = new Dashboard();
+
+            dashboardFragment.setDashboardMeta(dashboard);
+
             MaterialSection<Dashboard> section = this.newSection(
                 dashboard.getTitle(),
-                new Dashboard(dashboard)
+                dashboardFragment
             );
 
             this.addSection(section);
