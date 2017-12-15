@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gogisoft.grafanamobile.R;
+import com.gogisoft.grafanamobile.api_client.models.Panel;
 import com.gogisoft.grafanamobile.api_client.models.Row;
 
 import android.content.Context;
@@ -50,7 +51,19 @@ public class DashboardRowsAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.dashboard_row, parent, false);
         }
 
+        ViewGroup rowGroup = (ViewGroup)view;
+
         Row row = this.rows.get(position);
+
+        for (Panel panel : row.getPanels()) {
+            View panelView = inflater.inflate(R.layout.dashboard_panel, rowGroup, false);
+
+            TextView title_view = (TextView)panelView.findViewById(R.id.graph_title);
+
+            title_view.setText(panel.getTitle());
+
+            rowGroup.addView(panelView);
+        }
 
         return view;
     }
