@@ -6,9 +6,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Target {
 
-    @SerializedName("hide")
-    @Expose
-    private Boolean hide;
+    // @SerializedName("hide")
+    // @Expose
+    // private Boolean hide;
     @SerializedName("refId")
     @Expose
     private String refId;
@@ -16,13 +16,13 @@ public class Target {
     @Expose
     private String target;
 
-    public Boolean getHide() {
-        return hide;
-    }
+    // public Boolean getHide() {
+    //     return hide;
+    // }
 
-    public void setHide(Boolean hide) {
-        this.hide = hide;
-    }
+    // public void setHide(Boolean hide) {
+    //     this.hide = hide;
+    // }
 
     public String getRefId() {
         return refId;

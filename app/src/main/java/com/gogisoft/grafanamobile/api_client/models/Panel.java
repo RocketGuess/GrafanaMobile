@@ -130,9 +130,9 @@ public class Panel {
     @SerializedName("steppedLine")
     @Expose
     private Boolean steppedLine;
-    // @SerializedName("targets")
-    // @Expose
-    // private List<Target> targets = null;
+    @SerializedName("targets")
+    @Expose
+    private List<Target> targets = null;
     // @SerializedName("thresholds")
     // @Expose
     // private List<Object> thresholds = null;
@@ -489,13 +489,13 @@ public class Panel {
         this.steppedLine = steppedLine;
     }
 
-    // public List<Target> getTargets() {
-    //     return targets;
-    // }
+    public List<Target> getTargets() {
+        return targets;
+    }
 
-    // public void setTargets(List<Target> targets) {
-    //     this.targets = targets;
-    // }
+    public void setTargets(List<Target> targets) {
+        this.targets = targets;
+    }
 
     // public List<Object> getThresholds() {
     //     return thresholds;
