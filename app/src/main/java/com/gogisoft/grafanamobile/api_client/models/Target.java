@@ -9,6 +9,12 @@ public class Target {
     // @SerializedName("hide")
     // @Expose
     // private Boolean hide;
+    @SerializedName("expr")
+    @Expose
+    private String expr;
+    @SerializedName("legendFormat")
+    @Expose
+    private String legendFormat;
     @SerializedName("refId")
     @Expose
     private String refId;
@@ -40,4 +46,19 @@ public class Target {
         this.target = target;
     }
 
+    public String getExpr() {
+        return expr;
+    }
+
+    public void setExpr(String expr) {
+        this.expr = expr;
+    }
+
+    public String getLegendFormat() {
+        return legendFormat;
+    }
+
+    public void setLegendFormat(String legendFormat) {
+        this.legendFormat = legendFormat;
+    }
 }

@@ -43,8 +43,12 @@ public abstract class PanelContent {
             drawPanel(view, panel);
 
             for (TargetWrapper target : this.targets) {
-                List<Series> series = datasource.query(target);
-                drawTarget(view, target, series);
+                datasource.query(target, new Datasource.Callback(view, target){
+                    @Override
+                    public void call(List<Series> series) {
+                        drawTarget(this.view, this.target, series);
+                    }
+                });
             }
         }
 

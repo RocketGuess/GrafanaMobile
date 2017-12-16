@@ -8,4 +8,9 @@
     app:alignItems="stretch"
     app:alignContent="stretch" >
 
+<TextView
+    android:layout_height="0dp"
+    android:layout_width="0dp"
+    android:text="Don't touch this, it's a magic View!"/>
+
 </com.google.android.flexbox.FlexboxLayout>

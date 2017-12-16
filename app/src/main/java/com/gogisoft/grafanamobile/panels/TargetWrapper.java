@@ -4,6 +4,7 @@ import com.gogisoft.grafanamobile.api_client.models.Target;
 
 public class TargetWrapper {
     public enum TargetType {
+        Prometheus,
         Unknow
     }
 
@@ -13,7 +14,11 @@ public class TargetWrapper {
     }
 
     public TargetType getTargetType() {
-        return TargetType.Unknow;
+        if (this.target.getExpr() != null) {
+            return TargetType.Prometheus;
+        } else {
+            return TargetType.Unknow;
+        }
     }
 
     public Target getTarget() {

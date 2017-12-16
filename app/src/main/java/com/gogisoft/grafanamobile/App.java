@@ -8,7 +8,7 @@ import com.gogisoft.grafanamobile.api_client.GrafanaClient;
 
 public class App extends Application {
     private Retrofit retrofit;
-    private GrafanaClient client;
+    private static GrafanaClient client;
 
     @Override
     public void onCreate() {
@@ -25,7 +25,7 @@ public class App extends Application {
         client = retrofit.create(GrafanaClient.class);
     }
 
-    public GrafanaClient getGrafanaClient() {
+    public static GrafanaClient getGrafanaClient() {
         return client;
     }
 }
