@@ -54,7 +54,7 @@ public class PanelGraph extends PanelContent {
                 entries.add(new Entry(x, y));
             }
 
-            LineDataSet dataSet = new LineDataSet(entries, Integer.toString(i));
+            LineDataSet dataSet = new LineDataSet(entries, one_series.getName());
 
             lineData.addDataSet(dataSet);
         }

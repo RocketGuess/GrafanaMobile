@@ -72,7 +72,7 @@ public class Datasource {
                                 points.add(new Series.Point(pointValue, pointTime));
                             }
 
-                            series.add(new Series(points));
+                            series.add(new Series(points, result.getMetric()));
                         }
 
                         callback.call(series);
