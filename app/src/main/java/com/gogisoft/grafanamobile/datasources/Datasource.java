@@ -65,9 +65,11 @@ public class Datasource {
                         List<Series> series = new ArrayList<Series>();
 
                         for (PrometheusResult result : response.body().getData().getResult()) {
-                            List<PointF> points = new ArrayList<PointF>();
-                            for (List<Float> value : result.getValues()) {
-                                points.add(new PointF(value.get(0), value.get(1)));
+                            List<Series.Point> points = new ArrayList<Series.Point>();
+                            for (List<Double> value : result.getValues()) {
+                                double pointValue = value.get(1);
+                                long pointTime = value.get(0).longValue();
+                                points.add(new Series.Point(pointValue, pointTime));
                             }
 
                             series.add(new Series(points));

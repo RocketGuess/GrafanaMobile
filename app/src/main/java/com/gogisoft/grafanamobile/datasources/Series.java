@@ -1,19 +1,26 @@
 package com.gogisoft.grafanamobile.datasources;
 
-import android.graphics.Point;
-import android.graphics.PointF;
-
 import java.util.List;
 
 
 public class Series {
-    private List<PointF> points;
+    public static class Point {
+        public double value;
+        public long time;
 
-    public Series(List<PointF> points) {
+        public Point(double value, long time) {
+            this.value = value;
+            this.time = time;
+        }
+    }
+
+    private List<Series.Point> points;
+
+    public Series(List<Series.Point> points) {
         this.points = points;
     }
 
-    public List<PointF> getPoints() {
+    public List<Series.Point> getPoints() {
         return points;
     }
 }

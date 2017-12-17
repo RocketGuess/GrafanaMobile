@@ -12,7 +12,7 @@ public class PrometheusResult {
     private PrometheusMetric metric;
     @SerializedName("values")
     @Expose
-    private List<List<Float>> values = null;
+    private List<List<Double>> values = null;
 
     public PrometheusMetric getMetric() {
         return metric;
@@ -22,11 +22,11 @@ public class PrometheusResult {
         this.metric = metric;
     }
 
-    public List<List<Float>> getValues() {
+    public List<List<Double>> getValues() {
         return values;
     }
 
-    public void setValues(List<List<Float>> values) {
+    public void setValues(List<List<Double>> values) {
         this.values = values;
     }
 

@@ -7,6 +7,7 @@ import com.gogisoft.grafanamobile.R;
 import com.gogisoft.grafanamobile.api_client.models.Panel;
 import com.gogisoft.grafanamobile.api_client.models.Row;
 import com.gogisoft.grafanamobile.panels.PanelContent;
+import com.gogisoft.grafanamobile.panels.PanelGraph;
 import com.gogisoft.grafanamobile.panels.PanelUnavailable;
 
 import android.content.Context;
@@ -77,6 +78,10 @@ public class DashboardRowsAdapter extends BaseAdapter {
     private void drawPanelContetView(Panel panel, ViewGroup group) {
         PanelContent panelContent;
         switch(panel.getType()) {
+            case "graph": {
+                panelContent = new PanelGraph(panel, group, this.inflater);
+                break;
+            }
             default: {
                 panelContent = new PanelUnavailable(panel, group, this.inflater);
                 break;
