@@ -12,6 +12,7 @@ import com.gogisoft.grafanamobile.api_client.models.Target;
 import com.gogisoft.grafanamobile.api_client.models.prometheus.PrometheusData;
 import com.gogisoft.grafanamobile.api_client.models.prometheus.PrometheusQueryResponce;
 import com.gogisoft.grafanamobile.api_client.models.prometheus.PrometheusResult;
+import com.gogisoft.grafanamobile.formatters.Timestamp;
 import com.gogisoft.grafanamobile.panels.TargetWrapper;
 import com.gogisoft.grafanamobile.panels.TargetWrapper.TargetType;
 
@@ -46,10 +47,16 @@ public class Datasource {
 
     public void query(TargetWrapper targetWrapper, final Datasource.Callback callback) {
         Target terget = targetWrapper.getTarget();
-        int nowDate = (int)(Calendar.getInstance().getTime().getTime() / 1000);
-        String timeStart = Integer.toString(nowDate - (5 * 60));
-        String timeEnd = Integer.toString(nowDate);
-        String step = "10s";
+
+        Calendar calendar = Calendar.getInstance();
+        final long end = (calendar.getTime().getTime() / 1000);
+        calendar.add(Calendar.MINUTE, -5);
+        final long start = (calendar.getTime().getTime() / 1000);
+        final int step = 10;
+
+        String timeStart = Long.toString(start);
+        String timeEnd = Long.toString(end);
+        String timeStep = step + "s";
 
         switch (targetWrapper.getTargetType()) {
             case Prometheus: {
@@ -58,7 +65,7 @@ public class Datasource {
                     terget.getExpr(),
                     timeStart,
                     timeEnd,
-                    step
+                    timeStep
                 ).enqueue(new retrofit2.Callback<PrometheusQueryResponce>() {
                     @Override
                     public void onResponse(Call<PrometheusQueryResponce> call, Response<PrometheusQueryResponce> response) {
@@ -68,7 +75,13 @@ public class Datasource {
                             List<Series.Point> points = new ArrayList<Series.Point>();
                             for (List<Double> value : result.getValues()) {
                                 double pointValue = value.get(1);
-                                long pointTime = value.get(0).longValue();
+                                Timestamp pointTime = new Timestamp(
+                                    value.get(0).longValue(),
+                                    step,
+                                    start,
+                                    end
+                                );
+
                                 points.add(new Series.Point(pointValue, pointTime));
                             }
 
