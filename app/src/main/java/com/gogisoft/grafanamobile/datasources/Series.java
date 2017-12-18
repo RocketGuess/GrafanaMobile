@@ -1,9 +1,12 @@
 package com.gogisoft.grafanamobile.datasources;
 
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.gogisoft.grafanamobile.formatters.Timestamp;
 
+import android.graphics.Color;
 import java.util.List;
 
 
@@ -19,11 +22,16 @@ public class Series {
     }
 
     private List<Series.Point> points;
-    public Map<String, String> tags;
+    private Map<String, String> tags;
+    private int color;
+    private String legendFormat;
 
-    public Series(List<Series.Point> points, Map<String, String> tags) {
+
+    public Series(List<Series.Point> points, Map<String, String> tags, String legendFormat) {
         this.points = points;
         this.tags = tags;
+        this.color = Color.GREEN;
+        this.legendFormat = legendFormat;
     }
 
     public List<Series.Point> getPoints() {
@@ -31,12 +39,33 @@ public class Series {
     }
 
     public String getName() {
-        String str = "";
+        String input = legendFormat;
 
-        for (Map.Entry<String, String> entry : this.tags.entrySet()) {
-            str += entry.getKey() + ": " + entry.getValue() + " ";
+        Pattern p = Pattern.compile("\\{\\{.*\\}\\}");
+        Matcher m = p.matcher(legendFormat);
+
+        while (m.find()) {
+            String group = m.group()
+                .replaceAll("\\{\\{", "")
+                .replaceAll("\\}\\}", "")
+                .replaceAll(" ", "");
+
+            String value = "undefined";
+            if(this.tags.containsKey(group)) {
+                value = this.tags.get(group);
+            }
+
+            input = input.replaceAll("\\{\\{[ ]*"+ group +"[ ]*\\}\\}", value);
         }
 
-        return str;
+        return input;
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 }

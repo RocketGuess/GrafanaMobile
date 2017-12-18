@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.gogisoft.grafanamobile.App;
 import com.gogisoft.grafanamobile.api_client.GrafanaClient;
+import com.gogisoft.grafanamobile.api_client.models.Panel;
 import com.gogisoft.grafanamobile.api_client.models.Target;
 import com.gogisoft.grafanamobile.api_client.models.prometheus.PrometheusData;
 import com.gogisoft.grafanamobile.api_client.models.prometheus.PrometheusQueryResponce;
@@ -31,10 +32,12 @@ public class Datasource {
     public static abstract class Callback {
         protected View view;
         protected TargetWrapper target;
+        protected Panel panel;
 
-        public Callback(View view, TargetWrapper target) {
+        public Callback(View view, TargetWrapper target, Panel panel) {
             this.view = view;
             this.target = target;
+            this.panel = panel;
         }
 
         public abstract void call(List<Series> series);
@@ -46,7 +49,7 @@ public class Datasource {
     }
 
     public void query(TargetWrapper targetWrapper, final Datasource.Callback callback) {
-        Target terget = targetWrapper.getTarget();
+        final Target terget = targetWrapper.getTarget();
 
         Calendar calendar = Calendar.getInstance();
         final long end = (calendar.getTime().getTime() / 1000);
@@ -85,7 +88,7 @@ public class Datasource {
                                 points.add(new Series.Point(pointValue, pointTime));
                             }
 
-                            series.add(new Series(points, result.getMetric()));
+                            series.add(new Series(points, result.getMetric(), terget.getLegendFormat()));
                         }
 
                         callback.call(series);

@@ -2,6 +2,8 @@
 package com.gogisoft.grafanamobile.api_client.models;
 
 import java.util.List;
+import java.util.Map;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -54,7 +56,7 @@ public class Panel {
     private String type;
     @SerializedName("aliasColors")
     @Expose
-    private AliasColors aliasColors;
+    private Map<String, String> aliasColors;
     @SerializedName("annotate")
     @Expose
     private Annotate annotate;
@@ -281,11 +283,11 @@ public class Panel {
         this.type = type;
     }
 
-    public AliasColors getAliasColors() {
+    public Map<String, String> getAliasColors() {
         return aliasColors;
     }
 
-    public void setAliasColors(AliasColors aliasColors) {
+    public void setAliasColors(Map<String, String> aliasColors) {
         this.aliasColors = aliasColors;
     }
 

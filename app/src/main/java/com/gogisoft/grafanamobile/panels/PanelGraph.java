@@ -60,6 +60,7 @@ public class PanelGraph extends PanelContent {
             }
 
             LineDataSet dataSet = new LineDataSet(entries, one_series.getName());
+            dataSet.setColor(one_series.getColor());
 
             lineData.addDataSet(dataSet);
         }
