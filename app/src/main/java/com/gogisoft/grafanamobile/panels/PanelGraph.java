@@ -69,6 +69,8 @@ public class PanelGraph extends PanelContent {
 
         setLegend(chart);
 
+        chart.setMarker(new ValueMarker(context, R.layout.marker_value));
+
         chart.setData(lineData);
         chart.invalidate();
     }
