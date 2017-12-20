@@ -60,13 +60,22 @@ public class PanelGraph extends PanelContent {
             }
 
             LineDataSet dataSet = new LineDataSet(entries, one_series.getName());
-            dataSet.setColor(one_series.getColor());
+
+            setDataSetSettings(dataSet, one_series);
 
             lineData.addDataSet(dataSet);
         }
 
         chart.setData(lineData);
         chart.invalidate();
+    }
+
+    private void setDataSetSettings(LineDataSet dataSet, Series series) {
+        dataSet.setColor(series.getColor());
+        dataSet.setFillColor(series.getColor());
+        dataSet.setDrawFilled(true);
+        dataSet.setDrawCircles(false);
+        dataSet.setDrawValues(false);
     }
 
     private void setAxisSettings(LineChart chart) {
