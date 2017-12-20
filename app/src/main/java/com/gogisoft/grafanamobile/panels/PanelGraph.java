@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.components.XAxis.XAxisPosition;
@@ -66,6 +67,8 @@ public class PanelGraph extends PanelContent {
             lineData.addDataSet(dataSet);
         }
 
+        setLegend(chart);
+
         chart.setData(lineData);
         chart.invalidate();
     }
@@ -91,5 +94,10 @@ public class PanelGraph extends PanelContent {
         xAxis.setPosition(XAxisPosition.BOTTOM);
 
         xAxis.setValueFormatter(new TimestampValueFormatter());
+    }
+
+    private void setLegend(LineChart chart) {
+        chart.getLegend().setEnabled(true);
+        chart.getLegend().setTextColor(Color.WHITE);
     }
 }
