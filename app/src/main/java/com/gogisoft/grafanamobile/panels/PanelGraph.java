@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 public class PanelGraph extends PanelContent {
     private Context context;
     private LineChart chart;
+    private LineData lineData;
 
     public PanelGraph(Panel panel, ViewGroup group, LayoutInflater inflater) {
         super(panel, group, R.layout.panel_graph, inflater);
@@ -40,14 +41,13 @@ public class PanelGraph extends PanelContent {
     @Override
     protected void drawPanel(View view, Panel panel) {
         this.chart = (LineChart)view;
+        this.lineData = new LineData();
 
         setAxisSettings(chart);
     }
 
     @Override
     protected void drawTarget(View view, Target target, List<Series> series) {
-        LineData lineData = new LineData();
-
         for (Series one_series : series) {
             List<Entry> entries = new ArrayList<Entry>();
             for (Series.Point point : one_series.getPoints()) {
