@@ -12,6 +12,9 @@ public class DatasourceSettings {
     @SerializedName("type")
     @Expose
     private String type;
+    @SerializedName("id")
+    @Expose
+    private String id;
 
     public String getName() {
         return name;
@@ -19,6 +22,10 @@ public class DatasourceSettings {
 
     public String getType() {
         return type;
+    }
+
+    public String getId() {
+        return id;
     }
 
 }

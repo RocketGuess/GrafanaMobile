@@ -10,6 +10,7 @@ import retrofit2.http.Query;
 import com.gogisoft.grafanamobile.api_client.models.DashboardFull;
 import com.gogisoft.grafanamobile.api_client.models.DashboardsListModel;
 import com.gogisoft.grafanamobile.api_client.models.FrontendSettingsResponce;
+import com.gogisoft.grafanamobile.api_client.models.graphite.GraphiteQueryResponce;
 import com.gogisoft.grafanamobile.api_client.models.prometheus.PrometheusQueryResponce;
 
 
@@ -28,6 +29,16 @@ public interface GrafanaClient {
         @Query("start") String start,
         @Query("end") String end,
         @Query("step") String step
+    );
+
+    @GET("/api/datasources/proxy/{id}/render")
+    Call<List<GraphiteQueryResponce>> queryGraphite(
+        @Path("id") String datasource_name,
+        @Query("target") String target,
+        @Query("from") String from,
+        @Query("until") String until,
+        @Query("format") String format,
+        @Query("maxDataPoints") String maxDataPoints
     );
 
     @GET("/api/frontend/settings")

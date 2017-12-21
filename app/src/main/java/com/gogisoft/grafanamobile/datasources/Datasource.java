@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.gogisoft.grafanamobile.App;
 import com.gogisoft.grafanamobile.api_client.GrafanaClient;
@@ -12,6 +14,7 @@ import com.gogisoft.grafanamobile.api_client.models.DatasourceSettings;
 import com.gogisoft.grafanamobile.api_client.models.FrontendSettingsResponce;
 import com.gogisoft.grafanamobile.api_client.models.Panel;
 import com.gogisoft.grafanamobile.api_client.models.Target;
+import com.gogisoft.grafanamobile.api_client.models.graphite.GraphiteQueryResponce;
 import com.gogisoft.grafanamobile.api_client.models.prometheus.PrometheusData;
 import com.gogisoft.grafanamobile.api_client.models.prometheus.PrometheusQueryResponce;
 import com.gogisoft.grafanamobile.api_client.models.prometheus.PrometheusResult;
@@ -91,6 +94,9 @@ public class Datasource {
             case "prometheus":
                 queryPrometheus(datasorce.getName(), target, queryTime, callback);
                 break;
+            case "graphite":
+                queryGraphite(datasorce.getId(), target, queryTime, callback);
+                break;
 
             default:
                 break;
@@ -130,6 +136,51 @@ public class Datasource {
             }
             @Override
             public void onFailure(Call<PrometheusQueryResponce> call, Throwable t) {
+                Log.e("Some error", "error");
+            }
+        });
+    }
+
+    public void queryGraphite(String id, final Target target, final QueryTimeParams time, final Callback callback) {
+        client.queryGraphite(
+            id,
+            target.getTarget(),
+            time.getStartTime(),
+            time.getEndTime(),
+            "json",
+            "10"
+        ).enqueue(new retrofit2.Callback<List<GraphiteQueryResponce>>() {
+            @Override
+            public void onResponse(Call<List<GraphiteQueryResponce>> call, Response<List<GraphiteQueryResponce>> response) {
+                List<Series> series = new ArrayList<Series>();
+
+                if (response.body() != null) {
+                    for (GraphiteQueryResponce result : response.body()) {
+                        List<Series.Point> points = new ArrayList<Series.Point>();
+                        for (List<Double> value : result.getDatapoints()) {
+                            double pointValue = value.get(0);
+                            Timestamp pointTime = new Timestamp(
+                                value.get(1).longValue(),
+                                time.step,
+                                time.startTime,
+                                time.endTime
+                            );
+
+                            points.add(new Series.Point(pointValue, pointTime));
+                        }
+
+                        Map<String, String> tags = new HashMap<String, String>();
+                        tags.put("name", result.getTarget());
+
+                        series.add(new Series(points, tags, "{{name}}"));
+                    }
+                }
+
+                callback.call(series);
+            }
+
+            @Override
+            public void onFailure(Call<List<GraphiteQueryResponce>> call, Throwable t) {
                 Log.e("Some error", "error");
             }
         });
