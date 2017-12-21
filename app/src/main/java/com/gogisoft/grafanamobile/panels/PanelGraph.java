@@ -14,7 +14,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.gogisoft.grafanamobile.R;
 import com.gogisoft.grafanamobile.api_client.models.Panel;
-import com.gogisoft.grafanamobile.panels.TargetWrapper;
+import com.gogisoft.grafanamobile.api_client.models.Target;
 import com.gogisoft.grafanamobile.datasources.Series;
 import com.gogisoft.grafanamobile.formatters.TimestampValueFormatter;
 
@@ -45,12 +45,8 @@ public class PanelGraph extends PanelContent {
     }
 
     @Override
-    protected void drawTarget(View view, TargetWrapper target, List<Series> series) {
+    protected void drawTarget(View view, Target target, List<Series> series) {
         LineData lineData = new LineData();
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH, -5);
-        long year = (calendar.getTime().getTime() / 1000);
 
         for (Series one_series : series) {
             List<Entry> entries = new ArrayList<Entry>();

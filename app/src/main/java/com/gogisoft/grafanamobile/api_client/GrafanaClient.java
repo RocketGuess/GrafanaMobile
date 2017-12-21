@@ -9,6 +9,7 @@ import retrofit2.http.Query;
 
 import com.gogisoft.grafanamobile.api_client.models.DashboardFull;
 import com.gogisoft.grafanamobile.api_client.models.DashboardsListModel;
+import com.gogisoft.grafanamobile.api_client.models.FrontendSettingsResponce;
 import com.gogisoft.grafanamobile.api_client.models.prometheus.PrometheusQueryResponce;
 
 
@@ -28,4 +29,7 @@ public interface GrafanaClient {
         @Query("end") String end,
         @Query("step") String step
     );
+
+    @GET("/api/frontend/settings")
+    Call<FrontendSettingsResponce> getFrontendSettings();
 }

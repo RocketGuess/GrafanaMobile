@@ -7,7 +7,6 @@ import java.util.Map;
 import com.gogisoft.grafanamobile.api_client.models.Panel;
 import com.gogisoft.grafanamobile.api_client.models.Target;
 import com.gogisoft.grafanamobile.datasources.Datasource;
-import com.gogisoft.grafanamobile.panels.TargetWrapper;
 import com.gogisoft.grafanamobile.datasources.Series;
 
 import android.graphics.Color;
@@ -17,7 +16,7 @@ import android.view.ViewGroup;
 
 public abstract class PanelContent {
     private Datasource datasource;
-    private List<TargetWrapper> targets;
+    private List<Target> targets;
     private Panel panel;
     private LayoutInflater inflater;
     private ViewGroup group;
@@ -30,10 +29,7 @@ public abstract class PanelContent {
         this.resource = resource;
         this.inflater = inflater;
 
-        this.targets = new ArrayList<TargetWrapper>();
-        for (Target target : panel.getTargets()) {
-            this.targets.add(new TargetWrapper(target));
-        }
+        this.targets = panel.getTargets();
 
         this.datasource = new Datasource(panel.getDatasource());
     }
@@ -44,7 +40,7 @@ public abstract class PanelContent {
 
             drawPanel(view, panel);
 
-            for (TargetWrapper target : this.targets) {
+            for (Target target : this.targets) {
                 datasource.query(target, new Datasource.Callback(view, target, panel){
                     @Override
                     public void call(List<Series> series) {
@@ -93,5 +89,5 @@ public abstract class PanelContent {
 
     protected abstract void drawPanel(View view, Panel panel);
 
-    protected abstract void drawTarget(View view, TargetWrapper target, List<Series> series);
+    protected abstract void drawTarget(View view, Target target, List<Series> series);
 }

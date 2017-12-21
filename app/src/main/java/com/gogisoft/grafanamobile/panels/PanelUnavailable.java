@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.gogisoft.grafanamobile.R;
 import com.gogisoft.grafanamobile.api_client.models.Panel;
-import com.gogisoft.grafanamobile.panels.TargetWrapper;
+import com.gogisoft.grafanamobile.api_client.models.Target;
 import com.gogisoft.grafanamobile.datasources.Series;
 
 import android.view.LayoutInflater;
@@ -21,6 +21,6 @@ public class PanelUnavailable extends PanelContent {
     }
 
     @Override
-    protected void drawTarget(View view, TargetWrapper target, List<Series> series) {
+    protected void drawTarget(View view, Target target, List<Series> series) {
     }
 }
