@@ -4,18 +4,18 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.gogisoft.grafanamobile.formatters.Timestamp;
-
 import android.graphics.Color;
+
+import java.util.Date;
 import java.util.List;
 
 
 public class Series {
     public static class Point {
-        public double value;
-        public Timestamp time;
+        public Double value;
+        public Double time;
 
-        public Point(double value, Timestamp time) {
+        public Point(Double value, Double time) {
             this.value = value;
             this.time = time;
         }

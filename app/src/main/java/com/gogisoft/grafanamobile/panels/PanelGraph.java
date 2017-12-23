@@ -1,37 +1,27 @@
 package com.gogisoft.grafanamobile.panels;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.MarkerView;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.components.XAxis.XAxisPosition;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.gogisoft.grafanamobile.R;
 import com.gogisoft.grafanamobile.api_client.models.Panel;
 import com.gogisoft.grafanamobile.api_client.models.Target;
 import com.gogisoft.grafanamobile.datasources.Series;
-import com.gogisoft.grafanamobile.formatters.TimestampValueFormatter;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
-import android.R.color;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.PointF;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 public class PanelGraph extends PanelContent {
     private Context context;
-    private LineChart chart;
-    private LineData lineData;
+    private GraphView graph;
 
     public PanelGraph(Panel panel, ViewGroup group, LayoutInflater inflater) {
         super(panel, group, R.layout.panel_graph, inflater);
@@ -40,62 +30,54 @@ public class PanelGraph extends PanelContent {
 
     @Override
     protected void drawPanel(View view, Panel panel) {
-        this.chart = (LineChart)view;
-        this.lineData = new LineData();
+        this.graph = (GraphView)view;
 
-        setAxisSettings(chart);
+        setGraphSettings(graph);
     }
 
     @Override
     protected void drawTarget(View view, Target target, List<Series> series) {
         for (Series one_series : series) {
-            List<Entry> entries = new ArrayList<Entry>();
+
+            List<DataPoint> points = new ArrayList<DataPoint>();
             for (Series.Point point : one_series.getPoints()) {
-                float x = point.time.toFloat();
-                float y = (float)point.value;
-                entries.add(new Entry(x, y));
+                points.add(new DataPoint(getDate(point.time), point.value));
             }
 
-            LineDataSet dataSet = new LineDataSet(entries, one_series.getName());
+            LineGraphSeries<DataPoint> graphSeries = new LineGraphSeries<DataPoint>(points.toArray(new DataPoint[] {}));
 
-            setDataSetSettings(dataSet, one_series);
+            graph.getViewport().setMinX(points.get(0).getX());
+            graph.getViewport().setMaxX(points.get(points.size() - 1).getX());
 
-            lineData.addDataSet(dataSet);
+            setSeriesSettings(one_series, graphSeries);
+
+            graph.addSeries(graphSeries);
         }
-
-        setLegend(chart);
-
-        chart.setMarker(new ValueMarker(context, R.layout.marker_value));
-
-        chart.setData(lineData);
-        chart.invalidate();
     }
 
-    private void setDataSetSettings(LineDataSet dataSet, Series series) {
-        dataSet.setColor(series.getColor());
-        dataSet.setFillColor(series.getColor());
-        dataSet.setDrawFilled(true);
-        dataSet.setDrawCircles(false);
-        dataSet.setDrawValues(false);
+    private void setSeriesSettings(Series series, LineGraphSeries<DataPoint> graphSeries) {
+        graphSeries.setColor(series.getColor());
+        graphSeries.setDrawBackground(true);
+        graphSeries.setTitle(series.getName());
+        graphSeries.setDrawDataPoints(true);
+        graphSeries.setDataPointsRadius(8);
+        graphSeries.setThickness(5);
+
+        int alpha = 20;
+        int red = Color.red(series.getColor());
+        int green = Color.green(series.getColor());
+        int blue = Color.blue(series.getColor());
+        graphSeries.setBackgroundColor(Color.argb(alpha, red, green, blue));
     }
 
-    private void setAxisSettings(LineChart chart) {
-        XAxis xAxis = chart.getXAxis();
-        YAxis leftAxis = chart.getAxisLeft();
-        YAxis rightAxis = chart.getAxisRight();
-
-        xAxis.setTextColor(ContextCompat.getColor(context, R.color.graph_axis));
-        leftAxis.setTextColor(ContextCompat.getColor(context, R.color.graph_axis));
-
-        rightAxis.setEnabled(false);
-
-        xAxis.setPosition(XAxisPosition.BOTTOM);
-
-        xAxis.setValueFormatter(new TimestampValueFormatter());
+    private void setGraphSettings(GraphView graph) {
+        graph.getViewport().setScalable(true);
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(context));
+        graph.getGridLabelRenderer().setNumHorizontalLabels(3);
     }
 
-    private void setLegend(LineChart chart) {
-        chart.getLegend().setEnabled(true);
-        chart.getLegend().setTextColor(Color.WHITE);
+    private static Date getDate(Double time) {
+        return new Date(time.longValue() * 1000);
     }
 }

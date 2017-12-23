@@ -18,7 +18,6 @@ import com.gogisoft.grafanamobile.api_client.models.graphite.GraphiteQueryRespon
 import com.gogisoft.grafanamobile.api_client.models.prometheus.PrometheusData;
 import com.gogisoft.grafanamobile.api_client.models.prometheus.PrometheusQueryResponce;
 import com.gogisoft.grafanamobile.api_client.models.prometheus.PrometheusResult;
-import com.gogisoft.grafanamobile.formatters.Timestamp;
 
 import android.graphics.Point;
 import android.graphics.PointF;
@@ -118,13 +117,8 @@ public class Datasource {
                 for (PrometheusResult result : response.body().getData().getResult()) {
                     List<Series.Point> points = new ArrayList<Series.Point>();
                     for (List<Double> value : result.getValues()) {
-                        double pointValue = value.get(1);
-                        Timestamp pointTime = new Timestamp(
-                            value.get(0).longValue(),
-                            time.step,
-                            time.startTime,
-                            time.endTime
-                        );
+                        Double pointValue = value.get(1);
+                        Double pointTime = value.get(0);
 
                         points.add(new Series.Point(pointValue, pointTime));
                     }
@@ -158,13 +152,8 @@ public class Datasource {
                     for (GraphiteQueryResponce result : response.body()) {
                         List<Series.Point> points = new ArrayList<Series.Point>();
                         for (List<Double> value : result.getDatapoints()) {
-                            double pointValue = value.get(0);
-                            Timestamp pointTime = new Timestamp(
-                                value.get(1).longValue(),
-                                time.step,
-                                time.startTime,
-                                time.endTime
-                            );
+                            Double pointValue = value.get(0);
+                            Double pointTime = value.get(1);
 
                             points.add(new Series.Point(pointValue, pointTime));
                         }
