@@ -2,32 +2,39 @@ package com.gogisoft.grafanamobile;
 
 import java.util.List;
 
+import com.gogisoft.grafanamobile.adapters.DashboardsAdapter;
 import com.gogisoft.grafanamobile.api_client.GrafanaClient;
 import com.gogisoft.grafanamobile.api_client.models.DashboardsListModel;
 import com.gogisoft.grafanamobile.fragments.Dashboard;
 import com.gogisoft.grafanamobile.fragments.Settings;
+import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
 
 import retrofit2.Callback;
-
-import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
-import it.neokree.materialnavigationdrawer.elements.MaterialAccount;
-import it.neokree.materialnavigationdrawer.elements.MaterialSection;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class ActivityMain extends MaterialNavigationDrawer {
+public class ActivityMain extends AppCompatActivity {
     private static GrafanaClient client;
+    private ListView dashboardsListView;
 
     @Override
-    public void init(Bundle savedInstanceState) {
-        App app = (App)this.getApplication();
-        client = app.getGrafanaClient();
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        addSettingsSection();
+        client = App.getGrafanaClient();
+
+        dashboardsListView = (ListView)this.findViewById(R.id.dashboards_list);
 
         loadDashboards();
     }
@@ -42,32 +49,27 @@ public class ActivityMain extends MaterialNavigationDrawer {
             }
 
             @Override
-            public void onFailure(Call<List<DashboardsListModel>> call, Throwable t) {
-            }
+            public void onFailure(Call<List<DashboardsListModel>> call, Throwable t) {}
         });
     }
 
-    private void updateDashboardsList(List<DashboardsListModel> list) {
-        for (DashboardsListModel dashboard : list) {
-            Dashboard dashboardFragment = new Dashboard();
+    private void updateDashboardsList(final List<DashboardsListModel> list) {
 
-            dashboardFragment.setDashboardMeta(dashboard);
+        DashboardsAdapter adapter = new DashboardsAdapter(this, list);
 
-            MaterialSection<Dashboard> section = this.newSection(
-                dashboard.getTitle(),
-                dashboardFragment
-            );
+        dashboardsListView.setAdapter(adapter);
 
-            this.addSection(section);
-        }
-    }
-
-    private void addSettingsSection() {
-        MaterialSection<Settings> section = this.newSection(
-            "Settings",
-            new Settings()
-        );
-
-        this.addSection(section);
+        dashboardsListView.setOnItemClickListener(new OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int index, long arg3) {
+                FragmentTransaction fTrans = getFragmentManager().beginTransaction();
+                Dashboard fragment = new Dashboard();
+                fragment.setDashboardMeta(list.get(index));
+                fTrans.add(R.id.dashboard_container, (Fragment)fragment);
+                fTrans.commit();
+                FlowingDrawer mDrawer = (FlowingDrawer) findViewById(R.id.drawerlayout);
+                mDrawer.closeMenu();
+            }
+        });
     }
 }

@@ -13,9 +13,9 @@ import com.gogisoft.grafanamobile.api_client.models.DashboardFull;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,7 +62,7 @@ public class Dashboard extends Fragment {
 
         List<Row> rows = dashboard.getDashboard().getRows();
 
-        DashboardRowsAdapter adapter = new DashboardRowsAdapter(this.getContext(), rows);
+        DashboardRowsAdapter adapter = new DashboardRowsAdapter(this.getActivity(), rows);
 
         rowsView.setAdapter(adapter);
     }
