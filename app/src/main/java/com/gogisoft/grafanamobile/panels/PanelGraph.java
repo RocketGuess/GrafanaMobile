@@ -1,5 +1,7 @@
 package com.gogisoft.grafanamobile.panels;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -73,8 +75,17 @@ public class PanelGraph extends PanelContent {
     private void setGraphSettings(GraphView graph) {
         graph.getViewport().setScalable(true);
         graph.getViewport().setXAxisBoundsManual(true);
-        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(context));
-        graph.getGridLabelRenderer().setNumHorizontalLabels(3);
+        graph.getGridLabelRenderer().setGridColor(Color.WHITE);
+        graph.getGridLabelRenderer().setVerticalLabelsColor(Color.WHITE);
+        graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
+
+        graph.getGridLabelRenderer().setLabelFormatter(
+            new DateAsXAxisLabelFormatter(
+                context,
+                new SimpleDateFormat("mm:ss")
+            )
+        );
+        graph.getGridLabelRenderer().setNumHorizontalLabels(4);
     }
 
     private static Date getDate(Double time) {
