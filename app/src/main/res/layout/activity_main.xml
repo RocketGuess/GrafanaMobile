@@ -1,43 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.mxn.soul.flowingdrawer_core.FlowingDrawer
+<LinearLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/drawerlayout"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        app:edPosition="1"
-        app:edMenuSize="260dp"
-        app:edMenuBackground="#1F1D1D">
+        android:layout_height="match_parent">
 
-        <!--content-->
-        <FrameLayout
-                android:id="@+id/dashboard_container"
+        <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_weight="1"
+                android:layout_below="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:background="#141414"
-                android:layout_height="match_parent"/>
+                android:layout_height="110dp"
+                android:background="?attr/colorPrimary"
+                app:titleTextColor="#FEFEFE"
+                app:subtitleTextColor="#FEFEFE"/>
 
-        <!--menu-->
-        <com.mxn.soul.flowingdrawer_core.FlowingMenuLayout
+
+        <com.mxn.soul.flowingdrawer_core.FlowingDrawer
+                android:id="@+id/drawerlayout"
+                android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                app:edPosition="1"
+                app:edMenuSize="260dp"
+                app:edMenuBackground="#1F1D1D">
 
-                <LinearLayout
+                <FrameLayout
+                        android:id="@+id/dashboard_container"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:gravity="center">
+                        android:background="#141414"
+                        android:layout_height="match_parent"/>
 
-                <ListView
-                        android:id="@+id/dashboards_list"
+                <!--menu-->
+                <com.mxn.soul.flowingdrawer_core.FlowingMenuLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:dividerHeight="3dp"
-                />
+                        android:layout_height="match_parent">
 
-                </LinearLayout>
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:gravity="center">
 
-        </com.mxn.soul.flowingdrawer_core.FlowingMenuLayout>
+                        <ListView
+                                android:id="@+id/dashboards_list"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:dividerHeight="3dp"
+                        />
 
-</com.mxn.soul.flowingdrawer_core.FlowingDrawer>
+                        </LinearLayout>
+
+                </com.mxn.soul.flowingdrawer_core.FlowingMenuLayout>
+
+        </com.mxn.soul.flowingdrawer_core.FlowingDrawer>
+
+
+
+</LinearLayout>

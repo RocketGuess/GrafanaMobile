@@ -54,10 +54,8 @@ public class Datasource {
         this.client = App.getGrafanaClient();
     }
 
-    public void query(final Target target, final Datasource.Callback callback) {
+    public void query(final Target target, final QueryTimeParams queryTime, final Datasource.Callback callback) {
         final String datasource = this.name;
-
-        final QueryTimeParams queryTime = getTime();
 
         client.getFrontendSettings().enqueue(new retrofit2.Callback<FrontendSettingsResponce>() {
             @Override
@@ -173,14 +171,5 @@ public class Datasource {
                 Log.e("Some error", "error");
             }
         });
-    }
-
-    private QueryTimeParams getTime() {
-        Calendar calendar = Calendar.getInstance();
-        final long end = (calendar.getTime().getTime() / 1000);
-        calendar.add(Calendar.MINUTE, -5);
-        final long start = (calendar.getTime().getTime() / 1000);
-
-        return new QueryTimeParams(start, end, 10);
     }
 }

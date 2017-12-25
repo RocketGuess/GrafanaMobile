@@ -12,11 +12,11 @@ public class QueryTimeParams {
     }
 
     public String getStartTime() {
-        return new Long(startTime).toString();
+        return new Long(startTime / 1000).toString();
     }
 
     public String getEndTime() {
-        return new Long(endTime).toString();
+        return new Long(endTime / 1000).toString();
     }
 
     public String getStepTime() {

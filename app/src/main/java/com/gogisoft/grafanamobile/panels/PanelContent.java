@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.gogisoft.grafanamobile.ActivityMain;
 import com.gogisoft.grafanamobile.api_client.models.Panel;
 import com.gogisoft.grafanamobile.api_client.models.Target;
 import com.gogisoft.grafanamobile.datasources.Datasource;
+import com.gogisoft.grafanamobile.datasources.QueryTimeParams;
 import com.gogisoft.grafanamobile.datasources.Series;
 
 import android.graphics.Color;
@@ -21,6 +23,7 @@ public abstract class PanelContent {
     private LayoutInflater inflater;
     private ViewGroup group;
     private int resource;
+    private QueryTimeParams queryTimeParams;
 
     public PanelContent(Panel panel, ViewGroup group, int resource,
                         LayoutInflater inflater) {
@@ -32,6 +35,7 @@ public abstract class PanelContent {
         this.targets = panel.getTargets();
 
         this.datasource = new Datasource(panel.getDatasource());
+        this.queryTimeParams = ActivityMain.getQueryTimeParams();
     }
 
     public View getView(View view) {
@@ -41,7 +45,7 @@ public abstract class PanelContent {
             drawPanel(view, panel);
 
             for (Target target : this.targets) {
-                datasource.query(target, new Datasource.Callback(view, target, panel){
+                datasource.query(target, queryTimeParams, new Datasource.Callback(view, target, panel){
                     @Override
                     public void call(List<Series> series) {
                         if(this.panel.getAliasColors() != null) {
