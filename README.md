@@ -1,6 +1,8 @@
 # GrafanaMobile
 Android app for https://grafana.com/
 
+![](screenshots/screen2.jpg) ![](screenshots/screen3.jpg)
+
 ## For developers
 
 Requirements: android sdk https://developer.android.com/studio/index.html#command-tools
