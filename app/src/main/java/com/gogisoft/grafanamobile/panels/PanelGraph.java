@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 public class PanelGraph extends PanelContent {
     private Context context;
     private GraphView graph;
+    private Panel panel;
 
     public PanelGraph(Panel panel, ViewGroup group, LayoutInflater inflater) {
         super(panel, group, R.layout.panel_graph, inflater);
@@ -33,8 +34,9 @@ public class PanelGraph extends PanelContent {
     @Override
     protected void drawPanel(View view, Panel panel) {
         this.graph = (GraphView)view;
+        this.panel = panel;
 
-        setGraphSettings(graph);
+        setGraphSettings();
     }
 
     @Override
@@ -59,9 +61,9 @@ public class PanelGraph extends PanelContent {
 
     private void setSeriesSettings(Series series, LineGraphSeries<DataPoint> graphSeries) {
         graphSeries.setColor(series.getColor());
-        graphSeries.setDrawBackground(true);
+        graphSeries.setDrawBackground(panel.getFill() > 0);
         graphSeries.setTitle(series.getName());
-        graphSeries.setDrawDataPoints(true);
+        graphSeries.setDrawDataPoints(panel.getPoints());
         graphSeries.setDataPointsRadius(8);
         graphSeries.setThickness(5);
 
@@ -72,7 +74,7 @@ public class PanelGraph extends PanelContent {
         graphSeries.setBackgroundColor(Color.argb(alpha, red, green, blue));
     }
 
-    private void setGraphSettings(GraphView graph) {
+    private void setGraphSettings() {
         graph.getViewport().setScalable(true);
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getGridLabelRenderer().setGridColor(Color.WHITE);
