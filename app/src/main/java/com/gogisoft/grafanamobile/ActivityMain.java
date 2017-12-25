@@ -126,7 +126,6 @@ public class ActivityMain extends AppCompatActivity {
             public void onDateSet(Calendar start, Calendar end) {
                 queryTimeParams.startTime = start.getTime().getTime();
                 queryTimeParams.endTime = end.getTime().getTime();
-                queryTimeParams.step = 10;
 
                 if(queryTimeParams.startTime == queryTimeParams.endTime) {
                     queryTimeParams.startTime -= 60000 * 60;
@@ -146,7 +145,7 @@ public class ActivityMain extends AppCompatActivity {
 
         start.add(Calendar.HOUR, -1);
 
-        queryTimeParams = new QueryTimeParams(start.getTimeInMillis(), end.getTimeInMillis(), 10);
+        queryTimeParams = new QueryTimeParams(start.getTimeInMillis(), end.getTimeInMillis());
     }
 
     @Override

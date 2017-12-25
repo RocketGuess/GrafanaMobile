@@ -106,7 +106,7 @@ public class Datasource {
             target.getExpr(),
             time.getStartTime(),
             time.getEndTime(),
-            time.getStepTime()
+            target.getStepByRange(time.getRange()) + "s"
         ).enqueue(new retrofit2.Callback<PrometheusQueryResponce>() {
             @Override
             public void onResponse(Call<PrometheusQueryResponce> call, Response<PrometheusQueryResponce> response) {
@@ -140,7 +140,7 @@ public class Datasource {
             time.getStartTime(),
             time.getEndTime(),
             "json",
-            "10"
+            target.getPoints() + ""
         ).enqueue(new retrofit2.Callback<List<GraphiteQueryResponce>>() {
             @Override
             public void onResponse(Call<List<GraphiteQueryResponce>> call, Response<List<GraphiteQueryResponce>> response) {

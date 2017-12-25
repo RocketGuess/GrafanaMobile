@@ -5,10 +5,6 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Target {
-
-    // @SerializedName("hide")
-    // @Expose
-    // private Boolean hide;
     @SerializedName("expr")
     @Expose
     private String expr;
@@ -21,44 +17,45 @@ public class Target {
     @SerializedName("target")
     @Expose
     private String target;
-
-    // public Boolean getHide() {
-    //     return hide;
-    // }
-
-    // public void setHide(Boolean hide) {
-    //     this.hide = hide;
-    // }
+    @SerializedName("intervalFactor")
+    @Expose
+    private Integer intervalFactor;
 
     public String getRefId() {
         return refId;
-    }
-
-    public void setRefId(String refId) {
-        this.refId = refId;
     }
 
     public String getTarget() {
         return target;
     }
 
-    public void setTarget(String target) {
-        this.target = target;
-    }
-
     public String getExpr() {
         return expr;
-    }
-
-    public void setExpr(String expr) {
-        this.expr = expr;
     }
 
     public String getLegendFormat() {
         return legendFormat;
     }
 
-    public void setLegendFormat(String legendFormat) {
-        this.legendFormat = legendFormat;
+    public Integer getIntervalFactor() {
+        if(intervalFactor == null){
+            return 1;
+        } else {
+            return intervalFactor;
+        }
+    }
+
+    public Integer getStepByRange(int range) {
+        int step = range / ( 900 / getIntervalFactor());
+
+        if(step > 0) {
+            return step;
+        } else {
+            return 1;
+        }
+    }
+
+    public Integer getPoints() {
+        return 100;
     }
 }
