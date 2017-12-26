@@ -53,23 +53,26 @@ public class DashboardRowsAdapter extends BaseAdapter {
     public View getView(int position, View view, ViewGroup parent) {
         if (view == null) {
             view = inflater.inflate(R.layout.dashboard_row, parent, false);
-            ViewGroup rowGroup = (ViewGroup)view;
+        }
 
-            Row row = this.rows.get(position);
+        ViewGroup rowGroup = (ViewGroup)view;
 
-            for (Panel panel : row.getPanels()) {
-                View panelView = inflater.inflate(R.layout.dashboard_panel, rowGroup, false);
+        rowGroup.removeAllViews();
 
-                TextView title_view = (TextView)panelView.findViewById(R.id.graph_title);
-                LinearLayout content_view = (LinearLayout)panelView.findViewById(R.id.graph_content);
+        Row row = this.rows.get(position);
 
-                String title = panel.getTitle();
+        for (Panel panel : row.getPanels()) {
+            View panelView = inflater.inflate(R.layout.dashboard_panel, rowGroup, false);
 
-                title_view.setText(title);
-                drawPanelContetView(panel, content_view);
+            TextView title_view = (TextView)panelView.findViewById(R.id.graph_title);
+            LinearLayout content_view = (LinearLayout)panelView.findViewById(R.id.graph_content);
 
-                rowGroup.addView(panelView);
-            }
+            String title = panel.getTitle();
+
+            title_view.setText(title);
+            drawPanelContetView(panel, content_view);
+
+            rowGroup.addView(panelView);
         }
 
         return view;
