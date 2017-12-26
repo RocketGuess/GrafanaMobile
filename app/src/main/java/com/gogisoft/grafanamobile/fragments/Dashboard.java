@@ -25,7 +25,7 @@ import android.widget.ListView;
 
 
 public class Dashboard extends Fragment {
-    private DashboardsListModel dashboardMeta;
+    private static DashboardsListModel dashboardMeta;
     private View view;
 
     @Override
