@@ -1,6 +1,7 @@
 
 package com.gogisoft.grafanamobile.api_client.models;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -52,7 +53,11 @@ public class Row {
     }
 
     public List<Panel> getPanels() {
-        return panels;
+        if(panels != null) {
+            return panels;
+        } else {
+            return new ArrayList<Panel>();
+        }
     }
 
     public void setPanels(List<Panel> panels) {

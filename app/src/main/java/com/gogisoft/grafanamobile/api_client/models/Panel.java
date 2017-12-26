@@ -1,6 +1,7 @@
 
 package com.gogisoft.grafanamobile.api_client.models;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -492,7 +493,11 @@ public class Panel {
     }
 
     public List<Target> getTargets() {
-        return targets;
+        if(targets != null) {
+            return targets;
+        } else {
+            return new ArrayList<Target>();
+        }
     }
 
     public void setTargets(List<Target> targets) {

@@ -42,6 +42,9 @@ public class PanelGraph extends PanelContent {
     @Override
     protected void drawTarget(View view, Target target, List<Series> series) {
         for (Series one_series : series) {
+            if(one_series.getPoints().size() == 0) {
+                continue;
+            }
 
             List<DataPoint> points = new ArrayList<DataPoint>();
             for (Series.Point point : one_series.getPoints()) {

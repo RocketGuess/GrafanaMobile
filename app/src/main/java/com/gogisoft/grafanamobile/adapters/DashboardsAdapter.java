@@ -54,13 +54,13 @@ public class DashboardsAdapter extends BaseAdapter {
     public View getView(int position, View view, ViewGroup parent) {
         if (view == null) {
             view = inflater.inflate(R.layout.dashboard_list_item, parent, false);
-
-            DashboardsListModel dashboard = this.dashboards.get(position);
-
-            TextView textView = (TextView)view.findViewById(R.id.dashboard_list_item_title);
-
-            textView.setText(dashboard.getTitle());
         }
+
+        DashboardsListModel dashboard = this.dashboards.get(position);
+
+        TextView textView = (TextView)view.findViewById(R.id.dashboard_list_item_title);
+
+        textView.setText(dashboard.getTitle());
 
         return view;
     }

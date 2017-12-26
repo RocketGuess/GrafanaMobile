@@ -127,6 +127,12 @@ public class ActivityMain extends AppCompatActivity {
                 queryTimeParams.startTime = start.getTime().getTime();
                 queryTimeParams.endTime = end.getTime().getTime();
 
+                if (queryTimeParams.startTime > queryTimeParams.endTime) {
+                    long buf = queryTimeParams.startTime;
+                    queryTimeParams.startTime = queryTimeParams.endTime;
+                    queryTimeParams.endTime = buf;
+                }
+
                 if(queryTimeParams.startTime == queryTimeParams.endTime) {
                     queryTimeParams.startTime -= 60000 * 60;
                 }

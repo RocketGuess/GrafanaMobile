@@ -112,19 +112,23 @@ public class Datasource {
             public void onResponse(Call<PrometheusQueryResponce> call, Response<PrometheusQueryResponce> response) {
                 List<Series> series = new ArrayList<Series>();
 
-                for (PrometheusResult result : response.body().getData().getResult()) {
-                    List<Series.Point> points = new ArrayList<Series.Point>();
-                    for (List<Double> value : result.getValues()) {
-                        Double pointValue = value.get(1);
-                        Double pointTime = value.get(0);
+                if(response.body() != null) {
+                    for (PrometheusResult result : response.body().getData().getResult()) {
+                        List<Series.Point> points = new ArrayList<Series.Point>();
+                        for (List<Double> value : result.getValues()) {
+                            Double pointValue = value.get(1);
+                            Double pointTime = value.get(0);
 
-                        points.add(new Series.Point(pointValue, pointTime));
+                            if (pointValue != null && pointTime != null) {
+                                points.add(new Series.Point(pointValue, pointTime));
+                            }
+                        }
+
+                        series.add(new Series(points, result.getMetric(), target.getLegendFormat()));
                     }
 
-                    series.add(new Series(points, result.getMetric(), target.getLegendFormat()));
+                    callback.call(series);
                 }
-
-                callback.call(series);
             }
             @Override
             public void onFailure(Call<PrometheusQueryResponce> call, Throwable t) {
@@ -153,7 +157,9 @@ public class Datasource {
                             Double pointValue = value.get(0);
                             Double pointTime = value.get(1);
 
-                            points.add(new Series.Point(pointValue, pointTime));
+                            if (pointValue != null && pointTime != null) {
+                                points.add(new Series.Point(pointValue, pointTime));
+                            }
                         }
 
                         Map<String, String> tags = new HashMap<String, String>();
